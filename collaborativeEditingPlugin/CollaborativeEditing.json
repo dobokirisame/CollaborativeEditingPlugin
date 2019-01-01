@@ -1,0 +1,14 @@
+{
+	"Name" : "CollaborativeEditing",
+    "Version" : "0.0.1",
+    "CompatVersion" : "0.0.1",
+    "Vendor" : "AndreySemenov",
+    "Copyright" : "(C) Andrey Semenov",
+    "License" : "MIT",
+	"Description" : "Collaborative Editing Plugin",
+    "Url" : "https://github.com/dobokirisame",
+    "Dependencies" : [
+		{ "Name" : "Core", "Version" : "4.8.0" },
+		{ "Name" : "ProjectExplorer", "Version" : "4.8.0" }
+    ]
+}
