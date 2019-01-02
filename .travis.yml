@@ -1,0 +1,49 @@
+sudo: required
+dist: bionic
+language: generic
+
+script:
+  - gcc --version
+matrix:
+  include:
+    - os: linux
+      env: COMPILER_NAME=gcc CXX=g++-7 CC=gcc-7
+      addons:
+        apt:
+          packages:
+            - gcc-7
+            - g++-7
+          sources: &sources
+            - ubuntu-toolchain-r-test
+        env:
+          - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+
+before_install:
+  - sudo add-apt-repository ppa:beineri/opt-qt-5.11.2-bionic
+  - sudo apt-get update -qq
+  - eval "${MATRIX_EVAL}"
+
+      
+install:
+  - sudo apt-get -y install qt511[QTPACKAGE]
+  - cd  /opt
+  - wget http://download.qt.io/official_releases/qtcreator/4.8/4.8.0/qt-creator-opensource-src-4.8.0.tar.gz
+  - tar -xf ./qt-creator-opensource-src-4.8.0.tar.gz
+      
+notifications:
+  email:
+    on_success: never
+    on_failure: always
+script:
+  - source /opt/qt511/bin/qt511-env.sh
+  - cd $TRAVIS_BUILD_DIR/collaborativeEditingPlugin
+  - touch qt_deps.pri
+  - echo "QTC_SOURCE = /opt/qt-creator-opensource-src-4.8.0" > qt_deps.pri
+  - echo "QTC_BUILD = /opt/qt511" >> qt_deps.pri
+  - echo "LIBS+=-L/opt/qt511/lib/x86_64-linux-gnu/qtcreator/ -L/opt/qt511/lib/x86_64-linux-gnu/qtcreator/plugins" >> qt_deps.pri
+  - ls
+  - cat ./qt_deps.pri
+  - /opt/qt511/bin/qmake collaborativeEditingPlugin.pro
+  - ls
+  - cat ./.qmake.stash
+  - make
