@@ -23,13 +23,18 @@ USE_USER_DESTDIR = YES
 QT += network
 
 DISTFILES += \
-    src.pri
+    src.pri \
+    *.json
 
 SOURCES += \
-    *.cpp
+    *.cpp \
+    gui\*.cpp \
+    common\*.cpp
 
 HEADERS += \
-    *.h
+    *.h \
+    gui\*.h \
+    common\*.h
 
 #FORMS += \
 #    *.ui

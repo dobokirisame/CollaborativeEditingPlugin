@@ -4,15 +4,10 @@
 #include "collaborativeEditing_global.h"
 #include <extensionsystem/iplugin.h>
 
-namespace ProjectExplorer {
-class ProjectPanelFactory;
-}
-class QProcess;
 namespace collaborativeEditing {
 namespace gui {
-class ExplorerOutputPane;
-class CollaborativeEditingOptionsPage;
-}
+class OutputPane;
+} //namespace gui
 namespace core {
 
 class COLLABORATIVE_EDITING_EXPORT CollaborativeEditingPlugin : public ExtensionSystem::IPlugin
@@ -25,8 +20,9 @@ public:
     bool initialize(const QStringList &arguments, QString *errorString) override;
     void extensionsInitialized() override;
     ShutdownFlag aboutToShutdown() override;
-
+private:
+    gui::OutputPane *mOutputPane;
 };
 
-} // namespace Internal
-} // namespace QCollaborativeEditing
+} // namespace core
+} // namespace collaborativeEditing
