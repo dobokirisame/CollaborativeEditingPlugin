@@ -2,6 +2,7 @@
 #define STORAGE_H
 
 #include "collaborativeEditing_global.h"
+#include <QStringList>
 
 namespace collaborativeEditing {
 namespace common {
