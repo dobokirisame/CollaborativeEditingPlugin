@@ -2,6 +2,9 @@
 *.stash
 *.log
 *.pro.user
+*.rc
+*.gch
 Makefile*
 qrc_icons.cpp
 build/*
+qt_deps.pri
