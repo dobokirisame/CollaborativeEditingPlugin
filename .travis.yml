@@ -25,7 +25,7 @@ before_install:
 
       
 install:
-  - sudo apt-get -y install qt511[QTPACKAGE]
+  - sudo apt-get -y install qt511-meta-full
   - cd  /opt
   - wget http://download.qt.io/official_releases/qtcreator/4.8/4.8.0/qt-creator-opensource-src-4.8.0.tar.gz
   - tar -xf ./qt-creator-opensource-src-4.8.0.tar.gz
@@ -41,6 +41,7 @@ script:
   - echo "QTC_SOURCE = /opt/qt-creator-opensource-src-4.8.0" > qt_deps.pri
   - echo "QTC_BUILD = /opt/qt511" >> qt_deps.pri
   - echo "LIBS+=-L/opt/qt511/lib/x86_64-linux-gnu/qtcreator/ -L/opt/qt511/lib/x86_64-linux-gnu/qtcreator/plugins" >> qt_deps.pri
+  - echo "LIBS+=-L/opt/qt511/"
   - ls
   - cat ./qt_deps.pri
   - /opt/qt511/bin/qmake collaborativeEditingPlugin.pro
