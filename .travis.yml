@@ -40,8 +40,7 @@ notifications:
     on_failure: always
 script:
   - source /opt/qt512/bin/qt512-env.sh
-  - cd $TRAVIS_BUILD_DIR/collaborativeEditingPlugin
-  - cd 3rd-party
+  - cd $TRAVIS_BUILD_DIR/3rd-party
   - ./build_third_party.sh
   - cd $TRAVIS_BUILD_DIR/collaborativeEditingPlugin
   - touch qt_deps.pri
