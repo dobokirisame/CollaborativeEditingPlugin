@@ -109,15 +109,20 @@ void OutputPane::onEditorAboutToClose(Core::IEditor *editor) {
 }
 
 void OutputPane::onLocalTextChanged() {
-    QString diff;
     QString sourceData = QString::fromUtf8(mData);
-    std::set_difference(sourceData.begin(), sourceData.end(), mOutput->toPlainText().begin(), mOutput->toPlainText().end(),
-                            std::back_inserter(diff));
-    puts(diff.toStdString().c_str());
+    diff_match_patch<std::string> dmp;
+    auto patches = dmp.patch_make(sourceData.toStdString(), mOutput->toPlainText().toStdString());
+    diff_match_patch<std::string>::patch_toText(patches);
+//    diff_match_patch<std::string>::patch_fromText()
+//    dmp.patch_apply()
+    for(const auto &patch : patches) {
+        if(!patch.isNull()) {
+            std::cerr << patch.toString();
+        }
+    }
 }
 
 void OutputPane::disconnectDocument() {
-//    mOutput->blockSignals(true);
     if(mCurrentEditor->document() != nullptr) {
         disconnect(mCurrentEditor->document(), &Core::IDocument::contentsChanged,
                 this, &OutputPane::updatePane);
@@ -133,7 +138,6 @@ void OutputPane::updateEditorConnections() {
     connect(mCurrentEditor->document(), &Core::IDocument::contentsChanged,
             this, &OutputPane::updatePane);
     updatePane();
-//    mOutput->blockSignals(false);
 }
 
 } //namespace gui
