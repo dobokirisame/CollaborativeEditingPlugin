@@ -1,0 +1,33 @@
+PROJECT_ROOT=`pwd`/../..
+DESTDIR=${PROJECT_ROOT}/3rd-party/out/lib
+HEADERDIR=${PROJECT_ROOT}/3rd-party/out/include
+BINDIR=${PROJECT_ROOT}/3rd-party/out/bin
+SHAREDIR=${PROJECT_ROOT}/3rd-party/out/share
+PREFIX=${PROJECT_ROOT}/3rd-party/out
+PLATFORM='unknown'
+QMAKESPEC=''
+unamestr=`uname`
+machinestr=`uname -m`
+PROCS_COUNT=$(nproc --all)
+MAKEOPTS=" -j 8"
+
+if [[ $unamestr == 'Linux' ]]; then 
+	PLATFORM='linux'
+	QMAKESPEC='linux-g++'
+elif [[ $unamestr =~ 'MINGW' ]]; then
+	PLATFORM='mingw'
+	QMAKESPEC='win32-g++'
+elif [[ $unamestr =~ 'MSYS' ]]; then
+	PLATFORM='mingw'
+	QMAKESPEC='win32-g++'
+elif [[ $unamestr =~ 'Darwin' ]]; then
+	PLATFORM='macx'
+	QMAKESPEC='macx-clang'
+fi
+
+if [ -f custom_environment ];
+then
+source custom_environment
+fi
+
+set -e

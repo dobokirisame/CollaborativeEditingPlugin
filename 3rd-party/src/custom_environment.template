@@ -1,0 +1,27 @@
+# this file may be using as template one. don`t modify it directly
+# to use custom parameters for compile third-patry libs make copy this file with custom_environment name
+
+# uncomment to make 32bit version at 64 platform
+#QMAKESPEC='linux-g++-32'
+#export CFLAGS=-m32 
+#export CXXFLAGS=-m32 
+#export LDFLAGS=-m32
+
+# using nonsystem gcc version
+#export GCC_CUSTOM=/opt/gcc-4.7.3
+#export PATH=$GCC_CUSTOM/bin:$PATH
+#export CC=$GCC_CUSTOM/bin/gcc
+
+# uncomment if you use clang
+#QMAKESPEC='linux-clang'
+#export CC=clang-3.8
+#export CXX=clang++-3.8
+
+# mac build
+#PLATFORM='macx'
+#QMAKESPEC='macx-g++'
+
+# uncomment to use custom qt version for third-party libs
+#export QTDIR=/opt/qt5
+#export LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH
+#export PATH=$QTDIR/bin:$PATH

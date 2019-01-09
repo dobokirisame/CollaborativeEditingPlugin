@@ -1,0 +1,3 @@
+/out/*
+*.user*
+/src/custom_environment
