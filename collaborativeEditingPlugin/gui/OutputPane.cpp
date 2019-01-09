@@ -5,23 +5,21 @@
 #include <coreplugin/editormanager/editormanager.h>
 #include <coreplugin/editormanager/ieditor.h>
 #include <QTextCodec>
+#include <iostream>
+#include <LCS/diff_match_patch.h>
 
 namespace collaborativeEditing {
 namespace gui {
 OutputPane::OutputPane(QObject *parent)
     : Core::IOutputPane(parent),
-    mOutput(std::make_unique<QTextEdit>()) {
-    mCurrentDocument = Core::EditorManager::currentDocument();
-    connect(Core::EditorManager::instance(), &Core::EditorManager::currentDocumentStateChanged,
-            this, [=] {
-        if(mCurrentDocument!=nullptr) {
-            disconnect(mCurrentDocument, &Core::IDocument::contentsChanged,
-                    this, &OutputPane::updatePane);
-        }
-        mCurrentDocument = Core::EditorManager::currentDocument();
-        connect(mCurrentDocument, &Core::IDocument::contentsChanged,
-                this, &OutputPane::updatePane);
-    });
+    mOutput(std::make_unique<QPlainTextEdit>()) {
+    mCurrentEditor = Core::EditorManager::currentEditor();
+    connect(Core::EditorManager::instance(), &Core::EditorManager::currentEditorChanged,
+            this, &OutputPane::onCurrentEditorChanged);
+    connect(Core::EditorManager::instance(), &Core::EditorManager::editorAboutToClose,
+            this, &OutputPane::onEditorAboutToClose);
+    connect(mOutput.get(), &QPlainTextEdit::textChanged,
+            this, &OutputPane::onLocalTextChanged);
 }
 
 
@@ -81,14 +79,62 @@ void OutputPane::goToPrev() {
 }
 
 void OutputPane::updatePane() {
-    if(mCurrentDocument == nullptr) {
+    if(mCurrentEditor == nullptr || mCurrentEditor->document() == nullptr) {
         clearContents();
         return;
     }
-    auto source = mCurrentDocument->contents();
+    auto source = mCurrentEditor->document()->contents();
     auto unicodeSource = QTextCodec::codecForMib(106)->toUnicode(source);
-    mOutput->setText(unicodeSource);
-    return;
+    auto cursor = mOutput->textCursor();
+    mOutput->setPlainText(unicodeSource);
+    //    mOutput->setTextCursor()
 }
+
+void OutputPane::onCurrentEditorChanged(Core::IEditor *editor) {
+    if(mCurrentEditor != nullptr) {
+        disconnectDocument();
+    }
+    if(editor == nullptr) {
+        return;
+    }
+    mCurrentEditor = editor;
+    updateEditorConnections();
+}
+
+void OutputPane::onEditorAboutToClose(Core::IEditor *editor) {
+    if(mCurrentEditor == editor) {
+        disconnectDocument();
+        mCurrentEditor = nullptr;
+    }
+}
+
+void OutputPane::onLocalTextChanged() {
+    QString diff;
+    QString sourceData = QString::fromUtf8(mData);
+    std::set_difference(sourceData.begin(), sourceData.end(), mOutput->toPlainText().begin(), mOutput->toPlainText().end(),
+                            std::back_inserter(diff));
+    puts(diff.toStdString().c_str());
+}
+
+void OutputPane::disconnectDocument() {
+//    mOutput->blockSignals(true);
+    if(mCurrentEditor->document() != nullptr) {
+        disconnect(mCurrentEditor->document(), &Core::IDocument::contentsChanged,
+                this, &OutputPane::updatePane);
+    }
+}
+
+void OutputPane::updateEditorConnections() {
+    mData.clear();
+    if(mCurrentEditor == nullptr || mCurrentEditor->document() == nullptr) {
+        return;
+    }
+    mData = mCurrentEditor->document()->contents();
+    connect(mCurrentEditor->document(), &Core::IDocument::contentsChanged,
+            this, &OutputPane::updatePane);
+    updatePane();
+//    mOutput->blockSignals(false);
+}
+
 } //namespace gui
 } //namespace collaborativeEditing

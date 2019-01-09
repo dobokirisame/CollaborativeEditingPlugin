@@ -3,12 +3,12 @@
 
 #include <QObject>
 #include <coreplugin/ioutputpane.h>
-#include <QTextEdit>
+#include <QPlainTextEdit>
 #include <memory>
 #include "collaborativeEditing_global.h"
 
 namespace Core {
-class IDocument;
+class IEditor;
 } //namespace Core
 class QTextEdit;
 namespace collaborativeEditing {
@@ -32,11 +32,20 @@ public:
     bool canPrevious() const override;
     void goToNext() override;
     void goToPrev() override;
+    
 public slots:
     void updatePane();
+private slots:
+    void onCurrentEditorChanged(Core::IEditor *editor);
+    void onEditorAboutToClose(Core::IEditor *editor);
+    void onLocalTextChanged();
 private:
-    std::unique_ptr<QTextEdit> mOutput;
-    Core::IDocument *mCurrentDocument;
+    void disconnectDocument();
+    void updateEditorConnections();
+private:
+    std::unique_ptr<QPlainTextEdit> mOutput;
+    Core::IEditor *mCurrentEditor;
+    QByteArray mData;
 };
 } //namespace gui
 } //namespace collaborativeEditing

@@ -41,6 +41,9 @@ notifications:
 script:
   - source /opt/qt512/bin/qt512-env.sh
   - cd $TRAVIS_BUILD_DIR/collaborativeEditingPlugin
+  - cd 3rd-party
+  - ./build_third_party.sh
+  - cd $TRAVIS_BUILD_DIR/collaborativeEditingPlugin
   - touch qt_deps.pri
   - echo "QTC_SOURCE = /opt/qt-creator-opensource-src-4.8.0" > qt_deps.pri
   - echo "QTC_BUILD = /opt/qt512" >> qt_deps.pri
