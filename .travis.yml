@@ -13,22 +13,25 @@ matrix:
           packages:
             - gcc-7
             - g++-7
+            - p7zip-full
           sources: &sources
             - ubuntu-toolchain-r-test
         env:
           - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
 before_install:
-  - sudo add-apt-repository -y ppa:beineri/opt-qt-5.11.2-xenial
+  - sudo add-apt-repository -y ppa:beineri/opt-qt-5.12.0-xenial
   - sudo apt-get update -qq
   - eval "${MATRIX_EVAL}"
 
       
 install:
-  - sudo apt-get -y install qt511-meta-full
+  - sudo apt-get -y install qt512[QTPACKAGE]
   - cd  /opt
   - wget http://download.qt.io/official_releases/qtcreator/4.8/4.8.0/qt-creator-opensource-src-4.8.0.tar.gz
   - tar -xf ./qt-creator-opensource-src-4.8.0.tar.gz
+  - wget http://download.qt.io/official_releases/qtcreator/4.8/4.8.0/installer_source/linux_gcc_64_rhel72/qtcreator.7z
+  - 7z x -y qtcreator.7z -o "qtcreator"
       
 notifications:
   email:
@@ -40,11 +43,8 @@ script:
   - touch qt_deps.pri
   - echo "QTC_SOURCE = /opt/qt-creator-opensource-src-4.8.0" > qt_deps.pri
   - echo "QTC_BUILD = /opt/qt511" >> qt_deps.pri
-  - echo "LIBS+=-L/opt/qt511/lib/x86_64-linux-gnu/qtcreator/ -L/opt/qt511/lib/x86_64-linux-gnu/qtcreator/plugins" >> qt_deps.pri
-  - echo "LIBS+=-L/opt/qt511/"
-  - ls
-  - cat ./qt_deps.pri
-  - /opt/qt511/bin/qmake collaborativeEditingPlugin.pro
+  - echo "LIBS+=-L/opt/qtcreator/lib/qtcreator/ -L/opt/qtcreator/lib/qtcreator/plugins" >> qt_deps.pri
+  - /opt/qt512/bin/qmake collaborativeEditingPlugin.pro
   - ls
   - cat ./.qmake.stash
   - make
