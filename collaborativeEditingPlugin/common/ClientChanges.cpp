@@ -11,7 +11,7 @@ const QString patchesKey{QStringLiteral("patches")};
 
 namespace collaborativeEditing {
 namespace common {
-ClientChanges::ClientChanges(const QString &projectName, const QString &filePath, std::string &pathesText)
+ClientChanges::ClientChanges(const QString &projectName, const QString &filePath, const std::string &pathesText)
     : mProjectName(projectName),
       mFilePath(filePath),
       mPatchesText(pathesText) {
@@ -43,11 +43,11 @@ QByteArray ClientChanges::toByteArray() const {
     return document.toJson();
 }
 
-QString &ClientChanges::projectName() const {
+QString ClientChanges::projectName() const {
     return mProjectName;
 }
 
-QString &ClientChanges::filePath() const {
+QString ClientChanges::filePath() const {
     return mFilePath;
 }
 
