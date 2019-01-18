@@ -1,3 +1,6 @@
 [submodule "3rd-party/src/diff-match-patch-cpp-stl"]
 	path = 3rd-party/src/diff-match-patch-cpp-stl
 	url = https://github.com/dobokirisame/diff-match-patch-cpp-stl.git
+[submodule "3rd-party/src/googletest"]
+	path = 3rd-party/src/googletest
+	url = https://github.com/google/googletest.git
