@@ -20,12 +20,15 @@ public:
     QString filePath() const;
     std::string patchesText() const;
     bool isValid() const;
+    QString clientId() const;
+    void setClientId(const QString &clientId);
 private:
     void parserData(const QByteArray &data);
 private:
     QString mProjectName;
     QString mFilePath;
     std::string mPatchesText;
+    QString mClientId;
 };
 } //namespace common
 } //namespace collaborativeEditing

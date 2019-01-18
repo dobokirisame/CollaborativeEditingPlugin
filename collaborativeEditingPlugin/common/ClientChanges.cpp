@@ -6,6 +6,7 @@ namespace {
 const QString projectKey{QStringLiteral("project")};
 const QString fileLocationKey{QStringLiteral("fileLocation")};
 const QString patchesKey{QStringLiteral("patches")};
+const QString clientIdKey{QStringLiteral("clientId")};
 } //namespace
 
 
@@ -74,6 +75,15 @@ void ClientChanges::parserData(const QByteArray &data) {
     mProjectName = object.value(projectKey).toString();
     mFilePath = object.value(fileLocationKey).toString();
     mPatchesText = object.value(patchesKey).toString().toStdString();
+    mClientId = object.value(clientIdKey).toString();
+}
+
+QString ClientChanges::clientId() const {
+    return mClientId;
+}
+
+void ClientChanges::setClientId(const QString &clientId) {
+    mClientId = clientId;
 }
 } //namespace common
 } //namespace collaborativeEditing
