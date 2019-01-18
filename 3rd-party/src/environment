@@ -9,7 +9,7 @@ QMAKESPEC=''
 unamestr=`uname`
 machinestr=`uname -m`
 PROCS_COUNT=$(nproc --all)
-MAKEOPTS=" -j 8"
+MAKEOPTS=" -j $PROCS_COUNT"
 
 if [[ $unamestr == 'Linux' ]]; then 
 	PLATFORM='linux'
