@@ -41,6 +41,7 @@ notifications:
 script:
   - source /opt/qt512/bin/qt512-env.sh
   - cd $TRAVIS_BUILD_DIR/3rd-party
+  - chmod +x ./src/0build_googletest.sh
   - ./build_third_party.sh
   - cd $TRAVIS_BUILD_DIR/collaborativeEditingPlugin
   - touch qt_deps.pri
