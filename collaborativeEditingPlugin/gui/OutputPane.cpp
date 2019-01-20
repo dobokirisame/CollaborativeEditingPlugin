@@ -110,14 +110,13 @@ void OutputPane::onEditorAboutToClose(Core::IEditor *editor) {
 
 void OutputPane::onLocalTextChanged() {
     QString sourceData = QString::fromUtf8(mData);
-    diff_match_patch<std::string> dmp;
-    auto patches = dmp.patch_make(sourceData.toStdString(), mOutput->toPlainText().toStdString());
+    diff_match_patch<std::string> tmp;
+    auto patches = tmp.patch_make(sourceData.toStdString(), mOutput->toPlainText().toStdString());
     diff_match_patch<std::string>::patch_toText(patches);
-//    diff_match_patch<std::string>::patch_fromText()
-//    dmp.patch_apply()
     for(const auto &patch : patches) {
         if(!patch.isNull()) {
-            std::cerr << patch.toString();
+            std::cerr << patch.toString()<< "\n";
+
         }
     }
 }
