@@ -84,9 +84,12 @@ void OutputPane::updatePane() {
         return;
     }
     auto source = mCurrentEditor->document()->contents();
-    auto unicodeSource = QTextCodec::codecForMib(106)->toUnicode(source);
     auto cursor = mOutput->textCursor();
-    mOutput->setPlainText(unicodeSource);
+    auto filePath =mCurrentEditor->document()->filePath();
+    filePath.toString();
+    auto unicodeSource = QTextCodec::codecForMib(106)->toUnicode(source);
+//    mOutput->setPlainText(unicodeSource);
+    mOutput->setPlainText(filePath.toString());
     //    mOutput->setTextCursor()
 }
 
@@ -116,7 +119,6 @@ void OutputPane::onLocalTextChanged() {
     for(const auto &patch : patches) {
         if(!patch.isNull()) {
             std::cerr << patch.toString()<< "\n";
-
         }
     }
 }
