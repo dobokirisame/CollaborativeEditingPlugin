@@ -9,8 +9,8 @@ Client::Client(QObject *parent)
     :QObject(parent){
 }
 
-void Client::sendChanged() {
-    auto changes = generateClientChanges();
+void Client::sendChanged(const std::string &patch) {
+    auto changes = generateClientChanges(patch);
 }
 
 void Client::sendCursiorPosition() {
@@ -43,7 +43,7 @@ void Client::onLocalTextChanges(const QString &text) {
     diff_match_patch<std::string>::patch_toText(patches);
     for(const auto &patch : patches) {
         if(!patch.isNull()) {
-            std::cerr << patch.toString()<< "\n";
+            sendChanged(patch.toString());
         }
     }
 }
@@ -52,10 +52,16 @@ bool Client::canApplyClientChanges(const ClientChanges &changes) const {
     return changes.clientId() != clientId();
 }
 
-ClientChanges Client::generateClientChanges() const {
+ClientChanges Client::generateClientChanges(const std::string &patch) const {
+    if(mStorage == nullptr) {
+        std::cerr << "Could not find local storage";
+        return {};
+    }
     ClientChanges result;
     result.setClientId(mClientId);
     result.setFilePath(mCurrentFilePath);
+    result.setPatchesText(patch);
+    result.setProjectName(mStorage->currentProject());
     return result;
 }
 

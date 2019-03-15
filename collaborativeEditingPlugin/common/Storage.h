@@ -10,12 +10,15 @@ namespace common {
 class COLLABORATIVE_EDITING_EXPORT Storage
 {
 public:
-    Storage() = default;
+    explicit Storage(QString &&projectName);
     virtual ~Storage() = default;
     QStringList openedProjects() const;
     void applyClientChanges(const ClientChanges &changes);
     QString sourceText(const QString &filePath) const;
     void updateText(const QString &filePath);
+    QString currentProject() const;
+private:
+    QString mProjectName;
 };
 } //namespace common
 } //namespace collaborativeEditing

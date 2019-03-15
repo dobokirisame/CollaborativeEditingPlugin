@@ -10,6 +10,12 @@
 namespace collaborativeEditing {
 namespace common {
 
+Storage::Storage(QString &&projectName)
+    : mProjectName(std::move(projectName))
+{
+
+}
+
 QStringList Storage::openedProjects() const {
     return {};
 }
@@ -36,6 +42,10 @@ QString Storage::sourceText(const QString &filePath) const {
 
 void Storage::updateText(const QString &filePath) {
     // TODO(dobokirisame) add implementation
+}
+
+QString Storage::currentProject() const {
+    return mProjectName;
 }
 
 } //namespace common

@@ -14,7 +14,7 @@ class Client : public QObject
     Q_OBJECT
 public:
     explicit Client(QObject *parent = nullptr);
-    void sendChanged();
+    void sendChanged(const std::string &patch);
     void sendCursiorPosition();
     QString clientId() const;
 public slots:
@@ -27,7 +27,7 @@ private slots:
     void onLocalTextChanges(const QString &text);
 private:
     bool canApplyClientChanges(const ClientChanges &changes) const;
-    ClientChanges generateClientChanges() const;
+    ClientChanges generateClientChanges(const std::string &patch) const;
 private:
     QString mCurrentFilePath;
     QString mClientId;
