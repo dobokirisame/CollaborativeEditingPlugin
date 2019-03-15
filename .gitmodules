@@ -3,7 +3,9 @@
 	url = https://github.com/dobokirisame/diff-match-patch-cpp-stl.git
 [submodule "3rd-party/src/googletest"]
 	path = 3rd-party/src/googletest
+	ignore = dirty
 	url = https://github.com/google/googletest.git
 [submodule "3rd-party/src/qhttp"]
 	path = 3rd-party/src/qhttp
 	url = https://github.com/dobokirisame/qhttp.git
+	ignore = dirty
