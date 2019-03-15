@@ -4,6 +4,8 @@
 #include <QObject>
 #include "ClientChanges.h"
 #include "ClientCursorPostion.h"
+#include <memory>
+#include "Storage.h"
 
 namespace collaborativeEditing {
 namespace common {
@@ -14,8 +16,6 @@ public:
     explicit Client(QObject *parent = nullptr);
     void sendChanged();
     void sendCursiorPosition();
-    QString currentFileText() const;
-    void setCurrentFileText(const QString &currentFileText);
     QString clientId() const;
 public slots:
     void onClientChangesReceived(const ClientChanges &changes);
@@ -23,13 +23,15 @@ public slots:
 signals:
     void clientChangesApplied();
     void clinetCursorPositionChanged(const ClientCursorPostion &pos);
+private slots:
+    void onLocalTextChanges(const QString &text);
 private:
-    void applyClientChanges(const ClientChanges &changes);
     bool canApplyClientChanges(const ClientChanges &changes) const;
     ClientChanges generateClientChanges() const;
 private:
-    QString mCurrentFileText;
+    QString mCurrentFilePath;
     QString mClientId;
+    std::unique_ptr<Storage> mStorage;
 };
 } //namespace common
 } //namespace collaborativeEditing

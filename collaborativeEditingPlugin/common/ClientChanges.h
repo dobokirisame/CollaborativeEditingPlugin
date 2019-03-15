@@ -3,6 +3,7 @@
 #include <string>
 #include <QString>
 #include "collaborativeEditing_global.h"
+#include <QJsonDocument>
 
 namespace collaborativeEditing {
 namespace common {
@@ -15,6 +16,7 @@ public:
     void setProjectName(const QString &projectName);
     void setFilePath(const QString &value);
     void setPatchesText(const std::string &patchesText);
+    QJsonDocument toJson() const;
     QByteArray toByteArray() const;
     QString projectName() const;
     QString filePath() const;

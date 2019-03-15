@@ -1,5 +1,4 @@
 #include "ClientChanges.h"
-#include <QJsonDocument>
 #include <QJsonObject>
 
 namespace {
@@ -34,14 +33,18 @@ void ClientChanges::setPatchesText(const std::string &patchesText) {
     mPatchesText = patchesText;
 }
 
-QByteArray ClientChanges::toByteArray() const {
+QJsonDocument ClientChanges::toJson() const {
     QJsonDocument document;
     QJsonObject object;
     object.insert(projectKey, mProjectName);
     object.insert(fileLocationKey, mFilePath);
     object.insert(patchesKey, QString::fromStdString(mPatchesText));
     document.setObject(object);
-    return document.toJson();
+    return document;
+}
+
+QByteArray ClientChanges::toByteArray() const {
+    return toJson().toJson();
 }
 
 QString ClientChanges::projectName() const {
