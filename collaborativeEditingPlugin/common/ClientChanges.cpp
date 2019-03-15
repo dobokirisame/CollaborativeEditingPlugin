@@ -57,7 +57,8 @@ std::string ClientChanges::patchesText() const {
 }
 
 bool ClientChanges::isValid() const {
-    return !mProjectName.isEmpty() && !mFilePath.isEmpty() && !mPatchesText.empty();
+    return !mProjectName.isEmpty() && !mFilePath.isEmpty()
+            && !mPatchesText.empty();
 }
 
 void ClientChanges::parserData(const QByteArray &data) {

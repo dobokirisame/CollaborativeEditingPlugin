@@ -27,6 +27,7 @@ private:
     void applyClientChanges(const ClientChanges &changes);
     bool canApplyClientChanges(const ClientChanges &changes) const;
     ClientChanges generateClientChanges() const;
+private:
     QString mCurrentFileText;
     QString mClientId;
 };
