@@ -16,6 +16,7 @@ RCC_DIR = $$DESTDIR/.res/$$PROJECTFILENAME
 INCLUDEPATH += $$PROJECT_ROOT/3rd-party/out/include
 LIBS += -L$$PROJECT_ROOT/3rd-party/out/lib
 LIBS += -L$$PROJECT_ROOT/3rd-party/out/bin
+LIBS += -lqhttp
 
 unix: CONFIG += c++14
 mingw: QMAKE_CXXFLAGS += -std=gnu++14
