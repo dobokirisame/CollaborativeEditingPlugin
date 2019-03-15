@@ -17,7 +17,6 @@ include($$IDE_SOURCE_TREE/src/qtcreatorplugin.pri)
 
 include (src.pri)
 
-
 USE_USER_DESTDIR = YES
 
 QT += network

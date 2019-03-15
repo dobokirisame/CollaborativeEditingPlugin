@@ -2,7 +2,7 @@ PROJECT_ROOT = $$PWD/..
 
 CONFIG(debug, debug|release) {
         DIR_OUTPUT = $$PROJECT_ROOT/build/debug
-        DEFINES += COMPILER_EXPLORER_DEBUG
+        DEFINES += COLLABORATIVE_EDITING_DEBUG
 }
 CONFIG(release, debug|release) {
         DIR_OUTPUT = $$PROJECT_ROOT/build/release
@@ -13,7 +13,9 @@ MOC_DIR = $$DESTDIR/.moc/$$PROJECTFILENAME
 UI_DIR = $$DESTDIR/.ui/$$PROJECTFILENAME
 RCC_DIR = $$DESTDIR/.res/$$PROJECTFILENAME
 
-INCLUDEPATH +=  $$PROJECT_ROOT/3rd-party/out/include
+INCLUDEPATH += $$PROJECT_ROOT/3rd-party/out/include
+LIBS += -L$$PROJECT_ROOT/3rd-party/out/lib
+LIBS += -L$$PROJECT_ROOT/3rd-party/out/bin
 
 unix: CONFIG += c++14
 mingw: QMAKE_CXXFLAGS += -std=gnu++14
