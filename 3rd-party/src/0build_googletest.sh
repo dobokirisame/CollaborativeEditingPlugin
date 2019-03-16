@@ -11,6 +11,7 @@ if [[ $PLATFORM == 'linux' || $PLATFORM == 'macx' || $PLATFORM == 'arm-linux-and
 elif [[ $PLATFORM == 'mingw' ]]; then
 	GENERATOR='MSYS Makefiles'
 fi
+echo "Platform is ${PLATFORM}. Will use generator ${GENERATOR}"
 
 cmake -DCMAKE_INSTALL_PREFIX:PATH=${PREFIX} \
       -G "$GENERATOR" \
