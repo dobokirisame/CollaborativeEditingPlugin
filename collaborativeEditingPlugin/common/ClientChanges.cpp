@@ -17,6 +17,20 @@ ClientChanges::ClientChanges(const QString &projectName, const QString &filePath
       mPatchesText(pathesText) {
 }
 
+ClientChanges ClientChanges::fromByteArray(const QByteArray &data) {
+    auto document = QJsonDocument::fromJson(data);
+    if(document.isNull() || ! document.isObject()) {
+        return {};
+    }
+    auto object= document.object();
+    ClientChanges result;
+    result.setClientId(object.value(clientIdKey).toString());
+    result.setFilePath(object.value(fileLocationKey).toString());
+    result.setProjectName(object.value(projectKey).toString());
+    result.setPatchesText(object.value(patchesKey).toString().toStdString());
+    return result;
+}
+
 ClientChanges::ClientChanges(const QByteArray &data) {
     parserData(data);
 }
@@ -39,6 +53,7 @@ QJsonDocument ClientChanges::toJson() const {
     object.insert(projectKey, mProjectName);
     object.insert(fileLocationKey, mFilePath);
     object.insert(patchesKey, QString::fromStdString(mPatchesText));
+    object.insert(clientIdKey, mClientId);
     document.setObject(object);
     return document;
 }
@@ -59,7 +74,7 @@ std::string ClientChanges::patchesText() const {
     return mPatchesText;
 }
 
-bool ClientChanges::isValid() const {
+bool ClientChanges::areValid() const {
     return !mProjectName.isEmpty() && !mFilePath.isEmpty()
             && !mPatchesText.empty();
 }

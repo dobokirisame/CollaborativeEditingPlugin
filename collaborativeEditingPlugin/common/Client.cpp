@@ -2,15 +2,28 @@
 #include <iostream>
 #include <string>
 #include <LCS/diff_match_patch.h>
+#include <QHttp/qhttpclient.hpp>
+#include <QHttp/qhttpclientrequest.hpp>
+#include <QHttp/qhttpclientresponse.hpp>
 
 namespace collaborativeEditing {
 namespace common {
 Client::Client(QObject *parent)
-    :QObject(parent){
+    :QObject(parent) {
+    mHttpClient = new qhttp::client::QHttpClient(this);
 }
 
 void Client::sendChanged(const std::string &patch) {
     auto changes = generateClientChanges(patch);
+    mHttpClient->request(qhttp::EHTTP_POST, serverUrl(),
+                         [&changes](qhttp::client::QHttpRequest *request) {
+        request->write(changes.toByteArray());
+    }, [=](qhttp::client::QHttpResponse *response) {
+        if(response->isSuccessful()) {
+            return;
+        }
+        std::cerr << response->statusString().toStdString();
+    } );
 }
 
 void Client::sendCursiorPosition() {
@@ -63,6 +76,16 @@ ClientChanges Client::generateClientChanges(const std::string &patch) const {
     result.setPatchesText(patch);
     result.setProjectName(mStorage->currentProject());
     return result;
+}
+
+QUrl Client::serverUrl() const
+{
+    return mServerUrl;
+}
+
+void Client::setServerUrl(const QUrl &serverUrl)
+{
+    mServerUrl = serverUrl;
 }
 
 QString Client::clientId() const {

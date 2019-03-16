@@ -17,6 +17,7 @@ INCLUDEPATH += $$PROJECT_ROOT/3rd-party/out/include
 LIBS += -L$$PROJECT_ROOT/3rd-party/out/lib
 LIBS += -L$$PROJECT_ROOT/3rd-party/out/bin
 LIBS += -lqhttp
+DEFINES += QHTTP_HAS_CLIENT
 
 unix: CONFIG += c++14
 mingw: QMAKE_CXXFLAGS += -std=gnu++14

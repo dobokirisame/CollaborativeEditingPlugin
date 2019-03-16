@@ -12,6 +12,7 @@ class COLLABORATIVE_EDITING_EXPORT ClientChanges
 public:
     ClientChanges() = default;
     ClientChanges(const QString &projectName, const QString &filePath, const std::string &pathesText);
+    static ClientChanges fromByteArray(const QByteArray &data);
     explicit ClientChanges(const QByteArray &data);
     void setProjectName(const QString &projectName);
     void setFilePath(const QString &value);
@@ -21,7 +22,7 @@ public:
     QString projectName() const;
     QString filePath() const;
     std::string patchesText() const;
-    bool isValid() const;
+    bool areValid() const;
     QString clientId() const;
     void setClientId(const QString &clientId);
 private:

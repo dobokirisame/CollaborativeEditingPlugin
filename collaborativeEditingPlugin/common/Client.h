@@ -6,6 +6,13 @@
 #include "ClientCursorPostion.h"
 #include <memory>
 #include "Storage.h"
+#include <QUrl>
+
+namespace qhttp {
+namespace client {
+class QHttpClient;
+} //namespace client
+} //namespace qhttp
 
 namespace collaborativeEditing {
 namespace common {
@@ -17,6 +24,8 @@ public:
     void sendChanged(const std::string &patch);
     void sendCursiorPosition();
     QString clientId() const;
+    QUrl serverUrl() const;
+    void setServerUrl(const QUrl &serverUrl);
 public slots:
     void onClientChangesReceived(const ClientChanges &changes);
     void onClientCursorPositionReceived(const ClientCursorPostion &pos);
@@ -32,6 +41,8 @@ private:
     QString mCurrentFilePath;
     QString mClientId;
     std::unique_ptr<Storage> mStorage;
+    qhttp::client::QHttpClient *mHttpClient;
+    QUrl mServerUrl;
 };
 } //namespace common
 } //namespace collaborativeEditing

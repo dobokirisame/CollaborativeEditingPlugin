@@ -23,6 +23,8 @@ public:
     explicit Server(QObject *parent = nullptr);
 private:
     void initializeBackend();
+    void onDataReceived(const QByteArray &data);
+    void sendChangesToClients();
 private:
     std::vector<Client *> mClients;
     std::unique_ptr<Storage> mStorage;
