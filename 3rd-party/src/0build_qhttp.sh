@@ -13,4 +13,3 @@ if [ ! -d ${HEADERDIR}/QHttp ]; then mkdir -p "${HEADERDIR}/QHttp"; fi
 cd src
 ls -la
 cp ./*.hpp "${HEADERDIR}/QHttp"
-rm Makefile	
