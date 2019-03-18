@@ -6,13 +6,14 @@
 #include <memory>
 #include "collaborativeEditing_global.h"
 #include "Storage.h"
+#include <QTcpSocket>
 
 namespace qhttp {
 namespace server {
 class QHttpServer;
+class QHttpConnection;
 } //namespace server
 } //namespace qhttp
-
 namespace collaborativeEditing {
 namespace common {
 class Client;
@@ -25,10 +26,13 @@ private:
     void initializeBackend();
     void onDataReceived(const QByteArray &data);
     void sendChangesToClients();
+private slots:
+    void onNewConnection(qhttp::server::QHttpConnection* connection);
 private:
     std::vector<Client *> mClients;
     std::unique_ptr<Storage> mStorage;
     qhttp::server::QHttpServer *mServerBackend;
+    std::vector<std::unique_ptr<QTcpSocket>> mSockets;
 };
 } //namespace common
 } //namespace collaborativeEditing

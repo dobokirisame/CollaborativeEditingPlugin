@@ -3,6 +3,8 @@
 #include <iostream>
 #include <QHttp/qhttpserverrequest.hpp>
 #include <QHttp/qhttpserverresponse.hpp>
+#include <QHttp/qhttpserverconnection.hpp>
+#include <QHttp/qhttpfwd.hpp>
 
 namespace collaborativeEditing {
 namespace common {
@@ -27,6 +29,8 @@ void Server::initializeBackend() {
             response->end();
         } );
     };
+    connect(mServerBackend, &qhttp::server::QHttpServer::newConnection,
+            this, &Server::onNewConnection);
     mServerBackend->listen( QHostAddress::Any, 8080, backendRequestHandler);
     if ( !mServerBackend->isListening()) {
         std::cerr << "Failed to listen with server";
@@ -47,6 +51,15 @@ void Server::onDataReceived(const QByteArray &data) {
 
 void Server::sendChangesToClients() {
     // TODO(dobokirisame) add implementation
+}
+
+void Server::onNewConnection(qhttp::server::QHttpConnection *connection) {
+    if(connection->backendType() != qhttp::ETcpSocket) {
+        std::cerr << "Didn't get right socket";
+        return;
+    }
+    mSockets.emplace_back(std::unique_ptr<QTcpSocket>(connection->tcpSocket()));
+
 }
 } //namespace common
 } //namespace collaborativeEditing
