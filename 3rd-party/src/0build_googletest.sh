@@ -9,17 +9,20 @@ cd BUILD_DIR
 if [[ $PLATFORM == 'linux' || $PLATFORM == 'macx' || $PLATFORM == 'arm-linux-androideabi' ]]; then
 	GENERATOR='Unix Makefiles'
 elif [[ $PLATFORM == 'mingw' ]]; then
+	#GENERATOR='MinGW Makefiles'
 	GENERATOR='MSYS Makefiles'
 fi
 echo "Platform is ${PLATFORM}. Will use generator ${GENERATOR}"
 
-cmake -DCMAKE_INSTALL_PREFIX:PATH=${PREFIX} \
+cmake .. -DCMAKE_INSTALL_PREFIX:PATH=${PREFIX} \
       -G "$GENERATOR" \
       -DBUILD_GTEST=ON \
+      -DCMAKE_CXX_STANDARD=11 \
       -DBUILD_SHARED_LIBS=ON \
       -Dgtest_build_tests=ON \
-      -Dgmock_build_tests=ON  ..
-      #\ -Dgtest_disable_pthreads=ON
+      -Dgmock_build_tests=ON  \
+      -Dgtest_disable_pthreads=ON
+
 
 make ${MAKEOPTS}
 make install
