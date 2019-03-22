@@ -5,6 +5,7 @@
 #include <QHttp/qhttpserverresponse.hpp>
 #include <QHttp/qhttpserverconnection.hpp>
 #include <QHttp/qhttpfwd.hpp>
+#include <QTcpSocket>
 
 namespace collaborativeEditing {
 namespace common {
@@ -14,6 +15,16 @@ Server::Server(QObject *parent)
     mServerBackend = new qhttp::server::QHttpServer(this);
     initializeBackend();
 }
+
+Server::~Server() {
+    for(const auto &connection : mConnections) {
+        connection->killConnection();
+    }
+    if(mServerBackend->isListening()) {
+        mServerBackend->stopListening();
+    }
+}
+
 void Server::initializeBackend() {
     auto backendRequestHandler = [=](qhttp::server::QHttpRequest* request, qhttp::server::QHttpResponse* response) {
         if(request->method() != qhttp::EHTTP_POST) {
@@ -26,6 +37,8 @@ void Server::initializeBackend() {
                 this, [=,&response](const QByteArray &data) {
             onDataReceived(data);
             response->setStatusCode(qhttp::ESTATUS_OK);
+            response->addHeader("connection", "keep-alive");
+            response->addHeaderValue("content-length", data.length());
             response->end();
         } );
     };
@@ -46,20 +59,22 @@ void Server::onDataReceived(const QByteArray &data) {
     if(changes.areValid()) {
         mStorage->applyClientChanges(changes);
     }
-
 }
 
-void Server::sendChangesToClients() {
+void Server::sendChangesToClients(const QByteArray &data) {
+    for(const auto &connection : mConnections) {
+        connection->tcpSocket()->write(data);
+        //        socket->write();
+    }
     // TODO(dobokirisame) add implementation
 }
 
 void Server::onNewConnection(qhttp::server::QHttpConnection *connection) {
-    if(connection->backendType() != qhttp::ETcpSocket) {
-        std::cerr << "Didn't get right socket";
-        return;
-    }
-    mSockets.emplace_back(std::unique_ptr<QTcpSocket>(connection->tcpSocket()));
-
+    mConnections.emplace_back(connection);
+    connect(connection, &qhttp::server::QHttpConnection::disconnected,
+            this, [this, connection]() {
+        mConnections.erase(std::remove(mConnections.begin(), mConnections.end(),connection));
+    });
 }
 } //namespace common
 } //namespace collaborativeEditing
