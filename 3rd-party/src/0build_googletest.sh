@@ -39,7 +39,7 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=${PREFIX} \
       -DBUILD_SHARED_LIBS=ON \
 #      -Dgtest_build_tests=ON \
 #      -Dgmock_build_tests=ON  \
-      -Dgtest_disable_pthreads=OFF
+#      -Dgtest_disable_pthreads=ON
 
 
 make ${MAKEOPTS}
