@@ -1,5 +1,9 @@
 #ifndef HTTPREQUEST_H
 #define HTTPREQUEST_H
+#include <QJsonDocument>
+#include <QByteArray>
+#include <QString>
+
 
 class HttpRequest {
 public:

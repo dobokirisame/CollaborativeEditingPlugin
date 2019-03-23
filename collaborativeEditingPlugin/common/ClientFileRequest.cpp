@@ -1,5 +1,4 @@
 #include "ClientFileRequest.h"
-#include <QJsonDocument>
 
 ClientFileRequest::ClientFileRequest() {
 

@@ -1,8 +1,9 @@
 #ifndef CLIENTFILEREQUEST_H
 #define CLIENTFILEREQUEST_H
 #include "HttpRequest.h"
+#include "collaborativeEditing_global.h"
 
-class ClientFileRequest : public HttpRequest
+class COLLABORATIVE_EDITING_EXPORT ClientFileRequest : public HttpRequest
 {
 public:
     ClientFileRequest();
