@@ -4,10 +4,11 @@
 #include <QString>
 #include "collaborativeEditing_global.h"
 #include <QJsonDocument>
+#include "HttpRequest.h"
 
 namespace collaborativeEditing {
 namespace common {
-class COLLABORATIVE_EDITING_EXPORT ClientChanges
+class COLLABORATIVE_EDITING_EXPORT ClientChanges : public HttpRequest
 {
 public:
     ClientChanges() = default;
@@ -17,13 +18,13 @@ public:
     void setProjectName(const QString &projectName);
     void setFilePath(const QString &value);
     void setPatchesText(const std::string &patchesText);
-    QJsonDocument toJson() const;
-    QByteArray toByteArray() const;
+    QJsonDocument toJson() const override;
+    QByteArray toByteArray() const override;
     QString projectName() const;
     QString filePath() const;
     std::string patchesText() const;
-    bool areValid() const;
-    QString clientId() const;
+    bool isValid() const override;
+    QString clientId() const override;
     void setClientId(const QString &clientId);
 private:
     void parserData(const QByteArray &data);

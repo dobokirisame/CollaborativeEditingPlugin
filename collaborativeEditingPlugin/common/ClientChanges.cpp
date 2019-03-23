@@ -74,7 +74,7 @@ std::string ClientChanges::patchesText() const {
     return mPatchesText;
 }
 
-bool ClientChanges::areValid() const {
+bool ClientChanges::isValid() const {
     return !mProjectName.isEmpty() && !mFilePath.isEmpty()
             && !mPatchesText.empty();
 }

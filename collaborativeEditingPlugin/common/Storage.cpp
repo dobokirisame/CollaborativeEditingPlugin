@@ -21,7 +21,7 @@ QStringList Storage::openedProjects() const {
 }
 
 void Storage::applyClientChanges(const ClientChanges &changes) {
-    if(!changes.areValid()) {
+    if(!changes.isValid()) {
         return;
     }
     diff_match_patch<std::string> tmp;

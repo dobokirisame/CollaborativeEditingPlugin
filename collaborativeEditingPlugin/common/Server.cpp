@@ -56,7 +56,7 @@ void Server::onDataReceived(const QByteArray &data) {
         return;
     }
     auto changes = ClientChanges::fromByteArray(data);
-    if(changes.areValid()) {
+    if(changes.isValid()) {
         mStorage->applyClientChanges(changes);
     }
 }
@@ -64,9 +64,7 @@ void Server::onDataReceived(const QByteArray &data) {
 void Server::sendChangesToClients(const QByteArray &data) {
     for(const auto &connection : mConnections) {
         connection->tcpSocket()->write(data);
-        //        socket->write();
     }
-    // TODO(dobokirisame) add implementation
 }
 
 void Server::onNewConnection(qhttp::server::QHttpConnection *connection) {
