@@ -35,11 +35,11 @@ fi
 cmake .. -DCMAKE_INSTALL_PREFIX:PATH=${PREFIX} \
       -G "$GENERATOR" \
       -DBUILD_GTEST=ON \
-      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_CXX_STANDARD=11 \
       -DBUILD_SHARED_LIBS=ON \
-      -Dgtest_build_tests=ON \
-      -Dgmock_build_tests=ON  \
-      -Dgtest_disable_pthreads=ON
+#      -Dgtest_build_tests=ON \
+#      -Dgmock_build_tests=ON  \
+      -Dgtest_disable_pthreads=OFF
 
 
 make ${MAKEOPTS}
