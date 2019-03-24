@@ -22,6 +22,8 @@ class COLLABORATIVE_EDITING_EXPORT Server : public QObject
 public:
     explicit Server(QObject *parent = nullptr);
     ~Server() override;
+signals:
+    void initialSyncFinished();
 private:
     void initializeBackend();
     void onDataReceived(const QByteArray &data);
