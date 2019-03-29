@@ -15,15 +15,7 @@ Client::Client(QObject *parent)
 
 void Client::sendChanged(const std::string &patch) {
     auto changes = generateClientChanges(patch);
-    mHttpClient->request(qhttp::EHTTP_POST, serverUrl(),
-                         [&changes](qhttp::client::QHttpRequest *request) {
-        request->write(changes.toByteArray());
-    }, [=](qhttp::client::QHttpResponse *response) {
-        if(response->isSuccessful()) {
-            return;
-        }
-        std::cerr << response->statusString().toStdString();
-    } );
+    sendRequest(&changes);
 }
 
 void Client::sendCursiorPosition() {
@@ -61,6 +53,14 @@ void Client::onLocalTextChanges(const QString &text) {
     }
 }
 
+void Client::onResponseRecieved(const HttpRequest *request, const qhttp::client::QHttpResponse *response) const {
+    Q_UNUSED(request);
+    if(response->isSuccessful()) {
+        return;
+    }
+    std::cerr << response->statusString().toStdString();
+}
+
 bool Client::canApplyClientChanges(const ClientChanges &changes) const {
     return changes.clientId() != clientId();
 }
@@ -76,6 +76,19 @@ ClientChanges Client::generateClientChanges(const std::string &patch) const {
     result.setPatchesText(patch);
     result.setProjectName(mStorage->currentProject());
     return result;
+}
+
+void Client::sendRequest(const HttpRequest *httpRequest) const {
+    if(httpRequest == nullptr || !httpRequest->isValid()) {
+        std::cerr << "Got invalid http request";
+        return;
+    }
+    mHttpClient->request(qhttp::EHTTP_POST, serverUrl(),
+                         [&httpRequest](qhttp::client::QHttpRequest *request) {
+        request->write(httpRequest->toByteArray());
+    }, [=, &httpRequest](qhttp::client::QHttpResponse *response) {
+        onResponseRecieved(httpRequest, response);
+    } );
 }
 
 QUrl Client::serverUrl() const
