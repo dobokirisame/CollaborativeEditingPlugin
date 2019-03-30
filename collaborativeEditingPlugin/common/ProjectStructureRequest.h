@@ -3,6 +3,8 @@
 #include "HttpRequest.h"
 #include "collaborativeEditing_global.h"
 
+namespace collaborativeEditing {
+namespace common {
 class COLLABORATIVE_EDITING_EXPORT ProjectStructureRequest : public HttpRequest
 {
 public:
@@ -12,5 +14,7 @@ public:
     QByteArray toByteArray() const override;
     QString clientId() const override;
 };
+} //namespace common
+} //namespace collaborativeEditing
 
 #endif // PROJECTSTRUCTUREREQUEST_H

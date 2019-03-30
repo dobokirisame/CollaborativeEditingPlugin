@@ -101,6 +101,10 @@ void Client::setServerUrl(const QUrl &serverUrl)
     mServerUrl = serverUrl;
 }
 
+Storage *Client::storage() const {
+    return mStorage.get();
+}
+
 QString Client::clientId() const {
     return mClientId;
 }

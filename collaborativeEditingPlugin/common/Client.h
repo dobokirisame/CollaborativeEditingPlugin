@@ -29,10 +29,12 @@ public:
     QString clientId() const;
     QUrl serverUrl() const;
     void setServerUrl(const QUrl &serverUrl);
+    Storage *storage() const;
 public slots:
     void onClientChangesReceived(const ClientChanges &changes);
     void onClientCursorPositionReceived(const ClientCursorPostion &pos);
     virtual void onResponseRecieved(const HttpRequest *request, const qhttp::client::QHttpResponse *response) const;
+    void sendRequest(const HttpRequest *httpRequest) const;
 signals:
     void clientChangesApplied();
     void clinetCursorPositionChanged(const ClientCursorPostion &pos);
@@ -41,8 +43,6 @@ private slots:
 private:
     bool canApplyClientChanges(const ClientChanges &changes) const;
     ClientChanges generateClientChanges(const std::string &patch) const;
-protected:
-    void sendRequest(const HttpRequest *httpRequest) const;
 private:
     QString mCurrentFilePath;
     QString mClientId;

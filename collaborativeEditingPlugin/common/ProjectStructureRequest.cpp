@@ -1,5 +1,7 @@
 #include "ProjectStructureRequest.h"
 
+namespace collaborativeEditing {
+namespace common {
 ProjectStructureRequest::ProjectStructureRequest() {
 
 }
@@ -23,3 +25,5 @@ QString ProjectStructureRequest::clientId() const {
     // TODO(dobokirisame) add implementation
     return QString();
 }
+} //namespace common
+} //namespace collaborativeEditing

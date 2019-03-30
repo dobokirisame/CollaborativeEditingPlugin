@@ -4,7 +4,8 @@
 #include <QByteArray>
 #include <QString>
 
-
+namespace collaborativeEditing {
+namespace common {
 class HttpRequest {
 public:
     virtual ~HttpRequest() = default;
@@ -13,5 +14,6 @@ public:
     virtual QByteArray toByteArray() const = 0;
     virtual QString clientId() const = 0;
 };
-
+} //namespace common
+} //namespace collaborativeEditing
 #endif // HTTPREQUEST_H

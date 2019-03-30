@@ -1,5 +1,6 @@
 #include "FinishInitialSyncRequest.h"
-
+namespace collaborativeEditing {
+namespace common {
 FinishInitialSyncRequest::FinishInitialSyncRequest()
 {
 
@@ -24,3 +25,5 @@ QString FinishInitialSyncRequest::clientId() const {
     // TODO(dobokirisame) add implementation
     return QString();
 }
+} //namespace common
+} //namespace collaborativeEditing

@@ -13,8 +13,9 @@ public:
 public slots:
     void onResponseRecieved(const HttpRequest *request, const qhttp::client::QHttpResponse *response) const override;
 private:
-    bool canStartInitialSync() const;
+    void canStartInitialSync() const;
     void startInitialSync() const;
+    void finishInitialSync() const;
 private:
     Server *mServer;
 };

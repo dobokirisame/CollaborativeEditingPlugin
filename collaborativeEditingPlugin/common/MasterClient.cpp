@@ -1,6 +1,7 @@
 #include "MasterClient.h"
 #include "CanStartInitialSyncRequest.h"
 #include "InitialSyncRequest.h"
+#include "FinishInitialSyncRequest.h"
 #include <QHttp/qhttpclientresponse.hpp>
 
 namespace collaborativeEditing {
@@ -18,13 +19,18 @@ void MasterClient::onResponseRecieved(const HttpRequest *request, const qhttp::c
     }
 }
 
-bool MasterClient::canStartInitialSync() const {
+void MasterClient::canStartInitialSync() const {
     CanStartInitialSyncRequest request;
     sendRequest(&request);
 }
 
 void MasterClient::startInitialSync() const {
-    CanStartInitialSyncRequest request;
+    InitialSyncRequest request(storage());
+    sendRequest(&request);
+}
+
+void MasterClient::finishInitialSync() const {
+    FinishInitialSyncRequest request;
     sendRequest(&request);
 }
 

@@ -1,5 +1,6 @@
 #include "CanStartInitialSyncRequest.h"
-
+namespace collaborativeEditing {
+namespace common {
 CanStartInitialSyncRequest::CanStartInitialSyncRequest() {
 
 }
@@ -23,3 +24,5 @@ QString CanStartInitialSyncRequest::clientId() const {
     // TODO(dobokirisame) add implementation
     return QString();
 }
+} //namespace common
+} //namespace collaborativeEditing

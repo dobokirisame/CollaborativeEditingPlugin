@@ -1,5 +1,6 @@
 #include "ClientFileRequest.h"
-
+namespace collaborativeEditing {
+namespace common {
 ClientFileRequest::ClientFileRequest() {
 
 }
@@ -23,3 +24,5 @@ QString ClientFileRequest::clientId() const {
     // TODO(dobokirisame) add implementation
     return QString();
 }
+} //namespace common
+} //namespace collaborativeEditing

@@ -1,6 +1,8 @@
 #include "InitialSyncRequest.h"
-
-InitialSyncRequest::InitialSyncRequest() {
+namespace collaborativeEditing {
+namespace common {
+InitialSyncRequest::InitialSyncRequest(Storage *storage)
+    : mStorage(storage){
 
 }
 
@@ -23,3 +25,6 @@ QString InitialSyncRequest::clientId() const {
     // TODO(dobokirisame) add implementation
     return QString();
 }
+
+} //namespace common
+} //namespace collaborativeEditing
