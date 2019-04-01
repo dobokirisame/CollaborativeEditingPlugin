@@ -9,11 +9,13 @@ SyncQueue::SyncQueue(Storage *storage)
 }
 
 bool SyncQueue::hasSyncRequest() const {
-
+    // TODO(dobokirisame) add implementation
+    return false;
 }
 
 SyncRequest SyncQueue::nextSyncRequest() const {
-
+    // TODO(dobokirisame) add implementation
+    return SyncRequest(mStorage);
 }
 
 

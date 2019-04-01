@@ -4,6 +4,7 @@
 #include "FinishInitialSyncRequest.h"
 #include <QHttp/qhttpclientresponse.hpp>
 #include "Server.h"
+#include <iostream>
 
 namespace collaborativeEditing {
 namespace common {
@@ -18,10 +19,17 @@ void MasterClient::onResponseRecieved(const HttpRequest *request, const qhttp::c
     auto canStartSyncSent = dynamic_cast<const CanStartInitialSyncRequest*>(request) != nullptr;
     if(canStartSyncSent && response->isSuccessful()) {
         startInitialSync();
+        return;
     }
     auto initialSyncRequest = dynamic_cast<const InitialSyncRequest *>(request);
     if(initialSyncRequest != nullptr && response->isSuccessful()) {
-
+        sendInitialSyncPackage();
+        return;
+    }
+    auto syncRequest = dynamic_cast<const SyncRequest *>(request);
+    if(syncRequest != nullptr && response->isSuccessful()) {
+        sendInitialSyncPackage();
+        return;
     }
 }
 
@@ -37,6 +45,19 @@ void MasterClient::startInitialSync() {
 
 void MasterClient::finishInitialSync() {
     FinishInitialSyncRequest request;
+    sendRequest(&request);
+}
+
+void MasterClient::sendInitialSyncPackage() {
+    if(mSyncQueue == nullptr) {
+        std::cerr << "Sync queue was not defined";
+        return;
+    }
+    if(!mSyncQueue->hasSyncRequest()) {
+        std::cout << "Sync queue is empty";
+        return;
+    }
+    auto request = mSyncQueue->nextSyncRequest();
     sendRequest(&request);
 }
 

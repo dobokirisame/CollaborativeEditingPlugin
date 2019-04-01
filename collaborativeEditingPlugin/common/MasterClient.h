@@ -18,6 +18,7 @@ private:
     void canStartInitialSync();
     void startInitialSync();
     void finishInitialSync();
+    void sendInitialSyncPackage();
 private:
     Server *mServer;
     std::unique_ptr<SyncQueue> mSyncQueue;
