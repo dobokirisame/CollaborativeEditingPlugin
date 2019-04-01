@@ -29,12 +29,12 @@ public:
     QString clientId() const;
     QUrl serverUrl() const;
     void setServerUrl(const QUrl &serverUrl);
-    Storage *storage() const;
+    Storage *storage();
 public slots:
     void onClientChangesReceived(const ClientChanges &changes);
     void onClientCursorPositionReceived(const ClientCursorPostion &pos);
-    virtual void onResponseRecieved(const HttpRequest *request, const qhttp::client::QHttpResponse *response) const;
-    void sendRequest(const HttpRequest *httpRequest) const;
+    virtual void onResponseRecieved(const HttpRequest *request, const qhttp::client::QHttpResponse *response);
+    void sendRequest(const HttpRequest *httpRequest);
 signals:
     void clientChangesApplied();
     void clinetCursorPositionChanged(const ClientCursorPostion &pos);

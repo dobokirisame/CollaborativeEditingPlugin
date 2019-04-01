@@ -53,7 +53,7 @@ void Client::onLocalTextChanges(const QString &text) {
     }
 }
 
-void Client::onResponseRecieved(const HttpRequest *request, const qhttp::client::QHttpResponse *response) const {
+void Client::onResponseRecieved(const HttpRequest *request, const qhttp::client::QHttpResponse *response) {
     Q_UNUSED(request);
     if(response->isSuccessful()) {
         return;
@@ -78,7 +78,7 @@ ClientChanges Client::generateClientChanges(const std::string &patch) const {
     return result;
 }
 
-void Client::sendRequest(const HttpRequest *httpRequest) const {
+void Client::sendRequest(const HttpRequest *httpRequest) {
     if(httpRequest == nullptr || !httpRequest->isValid()) {
         std::cerr << "Got invalid http request";
         return;
@@ -101,7 +101,7 @@ void Client::setServerUrl(const QUrl &serverUrl)
     mServerUrl = serverUrl;
 }
 
-Storage *Client::storage() const {
+Storage *Client::storage() {
     return mStorage.get();
 }
 

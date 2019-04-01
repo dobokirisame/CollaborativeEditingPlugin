@@ -74,5 +74,13 @@ void Server::onNewConnection(qhttp::server::QHttpConnection *connection) {
         mConnections.erase(std::remove(mConnections.begin(), mConnections.end(),connection));
     });
 }
+
+void Server::onSyncStarted() {
+
+}
+
+void Server::onSyncFinished() {
+
+}
 } //namespace common
 } //namespace collaborativeEditing

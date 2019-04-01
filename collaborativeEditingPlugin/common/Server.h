@@ -30,6 +30,8 @@ private:
     void sendChangesToClients(const QByteArray &data);
 private slots:
     void onNewConnection(qhttp::server::QHttpConnection* connection);
+    void onSyncStarted();
+    void onSyncFinished();
 private:
     std::vector<Client *> mClients;
     std::unique_ptr<Storage> mStorage;

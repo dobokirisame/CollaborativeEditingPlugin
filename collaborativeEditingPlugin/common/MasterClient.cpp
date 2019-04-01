@@ -3,33 +3,39 @@
 #include "InitialSyncRequest.h"
 #include "FinishInitialSyncRequest.h"
 #include <QHttp/qhttpclientresponse.hpp>
+#include "Server.h"
 
 namespace collaborativeEditing {
 namespace common {
 
 MasterClient::MasterClient(Server *server, QObject *parent)
     : Client(parent),
-      mServer(server) {
+      mServer(server),
+      mSyncQueue(std::make_unique<SyncQueue>(storage())) {
 }
 
-void MasterClient::onResponseRecieved(const HttpRequest *request, const qhttp::client::QHttpResponse *response) const {
+void MasterClient::onResponseRecieved(const HttpRequest *request, const qhttp::client::QHttpResponse *response) {
     auto canStartSyncSent = dynamic_cast<const CanStartInitialSyncRequest*>(request) != nullptr;
     if(canStartSyncSent && response->isSuccessful()) {
         startInitialSync();
     }
+    auto initialSyncRequest = dynamic_cast<const InitialSyncRequest *>(request);
+    if(initialSyncRequest != nullptr && response->isSuccessful()) {
+
+    }
 }
 
-void MasterClient::canStartInitialSync() const {
+void MasterClient::canStartInitialSync() {
     CanStartInitialSyncRequest request;
     sendRequest(&request);
 }
 
-void MasterClient::startInitialSync() const {
+void MasterClient::startInitialSync() {
     InitialSyncRequest request(storage());
     sendRequest(&request);
 }
 
-void MasterClient::finishInitialSync() const {
+void MasterClient::finishInitialSync() {
     FinishInitialSyncRequest request;
     sendRequest(&request);
 }
