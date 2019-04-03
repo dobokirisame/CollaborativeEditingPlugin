@@ -1,6 +1,7 @@
 #include "ProjectStructure.h"
 
-ProjectStructure::ProjectStructure() {
+ProjectStructure::ProjectStructure(QObject *parent)
+    : QObject(parent) {
 
 }
 

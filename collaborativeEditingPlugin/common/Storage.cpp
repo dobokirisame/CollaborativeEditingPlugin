@@ -49,5 +49,9 @@ QString Storage::currentProject() const {
     return mProjectName;
 }
 
+ProjectStructure *Storage::projectStructure() {
+    return &mProjectStructure;
+}
+
 } //namespace common
 } //namespace collaborativeEditing

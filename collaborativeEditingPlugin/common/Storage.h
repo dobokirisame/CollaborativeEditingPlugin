@@ -4,6 +4,7 @@
 #include "collaborativeEditing_global.h"
 #include <QStringList>
 #include "ClientChanges.h"
+#include "ProjectStructure.h"
 
 namespace collaborativeEditing {
 namespace common {
@@ -17,8 +18,10 @@ public:
     QString sourceText(const QString &filePath) const;
     void updateText(const QString &filePath);
     QString currentProject() const;
+    ProjectStructure *projectStructure();
 private:
     QString mProjectName;
+    ProjectStructure mProjectStructure;
 };
 } //namespace common
 } //namespace collaborativeEditing
