@@ -57,7 +57,7 @@ void MasterClient::sendInitialSyncPackage() {
         std::cout << "Sync queue is empty";
         return;
     }
-    auto request = mSyncQueue->nextSyncRequest();
+    auto request = mSyncQueue->takeNextSyncRequest();
     sendRequest(&request);
 }
 

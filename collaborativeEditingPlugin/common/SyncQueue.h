@@ -2,6 +2,7 @@
 #define SYNCQUEUE_H
 #include "collaborativeEditing_global.h"
 #include "SyncRequest.h"
+#include <vector>
 
 namespace collaborativeEditing {
 namespace common {
@@ -12,9 +13,12 @@ public:
     explicit SyncQueue(Storage *storage);
     SyncQueue() = default;
     bool hasSyncRequest() const;
-    SyncRequest nextSyncRequest() const;
+    SyncRequest takeNextSyncRequest();
+private:
+    void generateRequests();
 private:
     Storage *mStorage;
+    std::vector<SyncRequest> mRequests;
 };
 } //namespace common
 } //namespace collaborativeEditing

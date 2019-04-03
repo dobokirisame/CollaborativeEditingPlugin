@@ -5,17 +5,26 @@ namespace collaborativeEditing {
 namespace common {
 
 SyncQueue::SyncQueue(Storage *storage)
-    : mStorage(storage){
+    : mStorage(storage) {
+    generateRequests();
 }
 
 bool SyncQueue::hasSyncRequest() const {
-    // TODO(dobokirisame) add implementation
-    return false;
+    return !mRequests.empty();
 }
 
-SyncRequest SyncQueue::nextSyncRequest() const {
+SyncRequest SyncQueue::takeNextSyncRequest() {
+    auto result = mRequests.back();
+    mRequests.pop_back();
+    return result;
+}
+
+void SyncQueue::generateRequests() {
+    mRequests.clear();
+    if(mStorage == nullptr) {
+        return;
+    }
     // TODO(dobokirisame) add implementation
-    return SyncRequest(mStorage);
 }
 
 
