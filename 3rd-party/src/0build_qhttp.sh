@@ -4,7 +4,7 @@ source environment
 cd qhttp
 mkdir -p BUILD_DIR
 cd ./BUILD_DIR
-qmake "OBJECTS_DIR=${BUILD_DIR}" "MOC_DIR=${BUILD_DIR}" "DESTDIR=${DESTDIR}" -spec ${QMAKESPEC} CONFIG+=release -r ../qhttp.pro
+qmake "OBJECTS_DIR=${BUILD_DIR}" "MOC_DIR=${BUILD_DIR}" "DESTDIR=${DESTDIR}" -spec ${QMAKESPEC} CONFIG+=release CONFIG+=staticlib -r ../qhttp.pro
 make ${MAKEOPTS}
 make ${MAKEOPTS} install
 cd ..
